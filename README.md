@@ -1,6 +1,7 @@
 <div align="center">
 
-# 🔨 STM32 HAL Fuzzer
+<img width="100%" src="https://capsule-render.vercel.app/api?type=slice&color=0:03234B,50:00d4ff,100:03234B&height=250&section=header&text=STM32%20HAL%20Fuzzer&fontSize=70&fontColor=ffffff&fontAlignY=40&stroke=ffffff&strokeWidth=1&desc=⚡%20AUTOMATED%20EDGE-CASE%20&%20STRESS%20TESTER%20FOR%20FIRMWARE&descSize=16&descAlignY=60&descColor=00d4ff&animation=fadeIn" />
+
 **Automated Edge-Case & Stress Tester for STM32 HAL Functions**
 
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDBia2R0OXA5N2YxbmZ4Ynd4Ynd4Ynd4Ynd4Ynd4Ynd4Ynd4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/A6aHBCFqlE0Rq/giphy.gif" width="100%" />
