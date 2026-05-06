@@ -3,6 +3,8 @@
 # 🔨 STM32 HAL Fuzzer
 **Automated Edge-Case & Stress Tester for STM32 HAL Functions**
 
+<img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDBia2R0OXA5N2YxbmZ4Ynd4Ynd4Ynd4Ynd4Ynd4Ynd4Ynd4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/A6aHBCFqlE0Rq/giphy.gif" width="100%" />
+
 [![CI Status](https://img.shields.io/github/actions/workflow/status/EngineerAbdullahBinZafar/stm32-hal-fuzzer/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![MCU: STM32](https://img.shields.io/badge/MCU-STM32_All_Series-03234B?style=for-the-badge&logo=stmicroelectronics&logoColor=white)](https://st.com)
