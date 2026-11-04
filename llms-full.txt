@@ -1,0 +1,45 @@
+# STM32 HAL Fuzzer — Full Context Specification
+
+> Coverage-Guided Firmware Driver Fuzzer & Stress-Testing Suite for STM32 Microcontrollers.
+
+## 1. System Overview
+`stm32-hal-fuzzer` automates boundary value generation and stress testing across the STM32 Hardware Abstraction Layer (HAL). It targets common firmware defects:
+- Null pointer dereferences in peripheral handle structs (`huart1`, `hi2c1`, `hspi1`).
+- Buffer length underflows and integer overflows (`Size = 0`, `Size = 0xFFFF`).
+- Unaligned memory pointers (`0x20000001`) triggering ARM `UsageFault` exceptions.
+- Peripheral bus deadlocks and infinite wait loops in blocking functions (`HAL_MAX_DELAY`).
+
+## 2. Mathematical Formulations
+1. **AFL Edge Coverage Hash:**
+   $$\text{edge\_id} = (\text{cur\_location} \oplus \text{prev\_location}) \pmod K$$
+   $$\text{prev\_location} \leftarrow \text{cur\_location} \gg 1$$
+   Quantization into 8 hit-count buckets: $\{1, 2, 3, 4\text{--}7, 8\text{--}15, 16\text{--}31, 32\text{--}127, 128+\}$.
+
+2. **ARM Cortex-M NVIC Interrupt Latency:**
+   $$\Delta t_{\text{latency}} \le t_{\text{stack}} + t_{\text{tail-chain}} + t_{\text{jitter}} + t_{\text{mem}}$$
+   where $t_{\text{stack}} = 12\,\text{cycles}$ ($R_0\text{--}R_3, R_{12}, LR, PC, xPSR$), $t_{\text{tail-chain}} = 6\,\text{cycles}$.
+   For STM32F407 at $f_{\text{CPU}} = 168\,\text{MHz}$:
+   $$T_{\text{latency,nominal}} = \frac{12}{168 \times 10^6\,\text{s}^{-1}} \approx 71.43\,\text{ns}$$
+   $$T_{\text{latency,worst}} \le \frac{12 + 2 \times 5}{168 \times 10^6\,\text{s}^{-1}} \approx 130.95\,\text{ns}$$
+
+3. **Algebraic Mutation Operators:**
+   - Bit-flip: $\mathcal{M}_{\text{bit}}(x, k) = x \oplus 2^k$
+   - Boundary values: $\mathcal{M}_{\text{int}}(x) \in \{0, 1, 0\text{x}FF, 0\text{xFFFF}, 0\text{xFFFFFFFF}\}$
+   - Arithmetic deltas: $\mathcal{M}_{\text{arith}}(x, \delta) = (x + \delta) \pmod{2^{32}}$
+   - Pointer corruption: $\mathcal{M}_{\text{ptr}} \in \{\text{NULL}, 0\text{x}20000001, 0\text{x}08000000\}$
+
+## 3. Peripheral Driver Coverage
+The fuzzer covers 25+ functions across 7 peripheral subsystems:
+- **GPIO:** `HAL_GPIO_WritePin`, `HAL_GPIO_ReadPin`, `HAL_GPIO_TogglePin`
+- **UART:** `HAL_UART_Transmit`, `Receive`, `Transmit_IT`, `Receive_IT`, `Transmit_DMA`
+- **I2C:** `HAL_I2C_Master_Transmit`, `Receive`, `Mem_Write`, `Mem_Read`
+- **SPI:** `HAL_SPI_Transmit`, `Receive`, `TransmitReceive`
+- **Timers:** `HAL_TIM_Base_Start`, `Base_Stop`, `PWM_Start`, `PWM_Stop`
+- **ADC / DAC:** `HAL_ADC_Start`, `PollForConversion`, `GetValue`, `HAL_DAC_Start`, `SetValue`
+- **System:** `HAL_FLASH_Unlock`, `Lock`, `HAL_PWR_EnterSLEEPMode`, `HAL_RCC_DeInit`
+
+## 4. Verification Commands
+```bash
+pytest test/ -v
+```
+All 3 tests pass verifying 25+ function signatures, single test case generation, and valid C harness generation.
