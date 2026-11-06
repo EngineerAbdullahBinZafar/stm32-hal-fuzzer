@@ -1,0 +1,25 @@
+# STM32 HAL Fuzzer
+
+> Automated coverage-guided edge-case fuzzer and stress-testing framework for STM32 Hardware Abstraction Layer (HAL) firmware drivers, featuring American Fuzzy Lop (AFL) edge hashing, ARM Cortex-M NVIC interrupt latency bounds, and automated C test harness generation.
+
+## Documentation
+- [Overview & Architecture](README.md): Firmware crash mechanisms, HAL peripheral harnesses, UART monitoring, and HTML diagnostic reporting.
+- [Fuzzer Core Engine](stm32_fuzzer/fuzzer.py): Generator engine supporting 25+ STM32 HAL peripheral APIs (GPIO, UART, I2C, SPI, TIM, ADC, DAC, FLASH, PWR, RCC).
+- [C Test Harness Generation](stm32_fuzzer/fuzzer.py#L121): Self-contained C source generator with boundary values, null pointers, and unaligned addresses for GCC and QEMU.
+
+## Architecture & Core Modules
+- [AFL Edge Coverage Hash](README.md#1-afl-style-directional-edge-coverage-hashing): Branch transition mapping via $(\text{cur} \oplus \text{prev}) \pmod K$ with directional right shift.
+- [NVIC Timing Analysis](README.md#2-arm-cortex-m-nvic-interrupt-latency-bounds): Cortex-M4 stacking (12 cycles), tail-chaining (6 cycles), and memory wait-state bounding.
+- [Peripheral Driver Catalog](stm32_fuzzer/fuzzer.py#L16-L52): Comprehensive signatures covering blocking, interrupt (IT), and DMA transmission modes.
+- [Register Mutation Operators](README.md#3-formal-algebraic-mutation-operators): Bit-flip $\mathcal{M}_{\text{bit}}$, arithmetic delta $\mathcal{M}_{\text{arith}}$, byte substitution $\mathcal{M}_{\text{int}}$, and pointer corruption.
+
+## APIs & CLI Options
+- [Fuzzer Constructor](stm32_fuzzer/fuzzer.py#L11): `STM32HALFuzzer(seed=None)`
+- [Single Case Generation](stm32_fuzzer/fuzzer.py#L96): `generate_test_case(func_name)`
+- [Suite Generation](stm32_fuzzer/fuzzer.py#L112): `generate_suite(count=15)`
+- [Export C Harness](stm32_fuzzer/fuzzer.py#L121): `generate_c_harness(test_count=20)`
+- CLI Command: `python -m stm32_fuzzer.fuzzer --export-c`
+
+## Optional
+- [Pre-built Firmware Targets](templates/): Test harness firmware binaries for STM32F407 Discovery and Nucleo development boards.
+- [Verification Test Suite](test/test_fuzzer.py): Automated pytest suite validating API coverage, single-statement generation, and complete C harness compilation structure.
