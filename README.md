@@ -15,6 +15,11 @@
 "Your firmware works under nominal inputs. Does it survive adversarial boundary edge cases?"
 ```
 
+```bash
+# ⚡ 1-Command Live Terminal Demonstration (Zero Dependencies)
+python demo.py
+```
+
 [Executive Overview](#-executive-overview) • [Mathematical Formulations](#-mathematical-formulations--coverage-mechanics) • [HAL Peripheral Catalog](#-hal-peripheral-driver-catalog) • [Mutation Engine](#-algebraic-mutation-engine) • [C Harness Generation](#%EF%B8%8F-automated-c-test-harness-export) • [Verification](#-verification--empirical-test-suite)
 
 </div>
