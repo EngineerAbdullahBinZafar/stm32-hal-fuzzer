@@ -4,7 +4,8 @@
 ### **Automated Coverage-Guided Edge-Case Fuzzer & Stress Tester for STM32 HAL Firmware**
 *AFL Edge Hashing · ARM Cortex-M NVIC Latency Bounds · 25+ HAL Peripheral Drivers · Automated C Harness Generation*
 
-[![CI Build & Test](https://img.shields.io/badge/CI-Passing%20(3%2F3%20Tests)-00d4ff?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer)
+[![CI Status](https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer/actions/workflows/ci.yml/badge.svg)](https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer/actions/workflows/ci.yml)
+[![Language](https://img.shields.io/badge/Core-C11%20%2B%20Python-00599C?style=for-the-badge&logo=c&logoColor=white)](c_harness/)
 [![MCU Target](https://img.shields.io/badge/MCU-STM32F4%20%7C%20F7%20%7C%20H7%20%7C%20G4-03234B?style=for-the-badge&logo=stmicroelectronics&logoColor=white)](https://st.com)
 [![Fuzzing Engine](https://img.shields.io/badge/Fuzzing-AFL--Style%20Coverage-7b61ff?style=for-the-badge&logo=security&logoColor=white)](https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
@@ -160,9 +161,15 @@ with open("test_harness.c", "w") as f:
 
 ---
 
-## 🧪 Verification & Empirical Test Suite
+## 🧪 Verification & Empirical Test Suite (C11 & Python)
 
-Run the automated test suite verifying 25+ function signatures, single test case generation, and valid C harness generation:
+Run the C11 contract-validated STM32 HAL invariant & deterministic fuzz dispatch suite under AddressSanitizer + UBSan (`-std=c11 -Wall -Wextra -Werror`):
+
+```bash
+make test
+```
+
+Run the automated Python fuzzer & C harness export suite:
 
 ```bash
 uv run --with pytest pytest -o pythonpath=. test/ -v
@@ -180,53 +187,6 @@ test/test_fuzzer.py::test_c_harness_export PASSED                        [100%]
 
 ============================== 3 passed in 0.06s ==============================
 ```
-
----
-
-<details>
-<summary>📋 Machine-Readable Metadata (Schema.org JSON-LD)</summary>
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareSourceCode",
-  "name": "stm32-hal-fuzzer",
-  "version": "1.0.0",
-  "description": "Automated coverage-guided edge-case fuzzer and stress-testing framework for STM32 Hardware Abstraction Layer (HAL) peripheral drivers with AFL edge hashing, NVIC interrupt latency models, and C test harness generation.",
-  "author": {
-    "@type": "Person",
-    "name": "Engineer Abdullah Bin Zafar",
-    "email": "abz.king.1.9.2003@gmail.com",
-    "affiliation": {
-      "@type": "EducationalOrganization",
-      "name": "University of Engineering and Technology (UET) Lahore"
-    },
-    "sameAs": "https://github.com/EngineerAbdullahBinZafar"
-  },
-  "license": "https://opensource.org/licenses/MIT",
-  "codeRepository": "https://github.com/EngineerAbdullahBinZafar/stm32-hal-fuzzer",
-  "programmingLanguage": [
-    "Python",
-    "C"
-  ],
-  "applicationCategory": "EmbeddedSecurityFuzzing",
-  "operatingSystem": "Cross-Platform (Linux, Windows, Bare-Metal Microcontrollers)",
-  "keywords": [
-    "stm32",
-    "hal",
-    "fuzzing",
-    "embedded-security",
-    "afl-coverage",
-    "nvic-latency",
-    "firmware-testing",
-    "hard-fault-detection",
-    "cortex-m4",
-    "automated-testing"
-  ]
-}
-```
-
-</details>
 
 ---
 
